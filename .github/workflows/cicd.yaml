@@ -16,6 +16,8 @@ jobs:
 
      - run: pytest
  build:
+   needs: testing
+   
    runs-on: ubuntu-latest
 
 
@@ -52,23 +54,25 @@ jobs:
          labels: ${{ steps.meta.outputs.labels }}
          
  deploy:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+   needs: build
+  
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout code
+       uses: actions/checkout@v2
 
-    - name: Set up SSH
-      uses: appleboy/ssh-action@v1.2.1
-      with:
-        host: ${{ secrets.SERVER_IP }}
-        username: yc-user
-        passphrase: ${{ secrets.PASS_PHASE }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd /$HOME/test-cicd
-          sudo docker compose down
-          docker pull ghcr.io/edgardksenofontov/os_linux:main
-          sudo docker compose up -d
+     - name: Set up SSH
+       uses: appleboy/ssh-action@v1.2.1
+       with:
+         host: ${{ secrets.SERVER_IP }}
+         username: yc-user
+         passphrase: ${{ secrets.PASS_PHASE }}
+         key: ${{ secrets.SSH_PRIVATE_KEY }}
+         script: |
+           cd /$HOME/test-cicd
+           sudo docker compose down
+           docker pull ghcr.io/edgardksenofontov/os_linux:main
+           sudo docker compose up -d
           
 
         
