@@ -64,6 +64,12 @@ jobs:
         username: yc-user
         passphrase: ${{ secrets.PASS_PHASE }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: whoami
+        script: |
+          cd home/yc-user/test-cicd
+          sudo docker compose down
+          docker pull ghcr.io/edgardksenofontov/os_linux:main
+          sudo docker compose up
+          
+
         
         
