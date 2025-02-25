@@ -61,7 +61,7 @@ jobs:
       uses: webfactory/ssh-agent@v0.9.0
       with:
         host: ${{ secrets.SERVER_IP }}
-        user-name: yc-user
+        username: yc-user
         passphrase: ${{ secrets.PASS_PHASE }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: whoami
