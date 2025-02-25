@@ -65,10 +65,10 @@ jobs:
         passphrase: ${{ secrets.PASS_PHASE }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd /home/yc-user/test-cicd
+          cd /$HOME/test-cicd
           sudo docker compose down
           docker pull ghcr.io/edgardksenofontov/os_linux:main
-          sudo docker compose up
+          sudo docker compose up -d
           
 
         
