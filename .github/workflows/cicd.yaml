@@ -60,12 +60,9 @@ jobs:
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    - name: Connect to server and deploy
-      run: |
-        ssh -o StrictHostKeyChecking=no yc-user@${{ secrets.SERVER_IP }} "
-        docker-compose pull
-        docker-compose up -d
-        "
+        host: ${{ secrets.SERVER_IP }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphase: "123"
+        script: whoami
+        user-name: yc-user
         
