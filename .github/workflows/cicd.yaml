@@ -62,7 +62,7 @@ jobs:
       with:
         host: ${{ secrets.SERVER_IP }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphase: "123"
+        passphase: ${{ secrets.PASS_PHASE }}
         script: whoami
         user-name: yc-user
         
