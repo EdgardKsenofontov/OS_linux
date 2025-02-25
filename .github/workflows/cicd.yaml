@@ -70,6 +70,8 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Connect to server and deploy
+        env:
+          SSH_PASSWORD: "123" 
         run: |
           ssh -o StrictHostKeyChecking=no yc-user@${{ secrets.SERVER_IP }} "
           docker-compose pull
