@@ -58,23 +58,26 @@ jobs:
            password: ${{ secrets.PASSWORD }}
            port: ${{ secrets.PORT }}
            script: whoami 
-   deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - name: Install sshpass
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y sshpass  
+        - name: Set up SSH
+          uses: webfactory/ssh-agent@v0.9.0
+          with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Connect to server and deploy
-        env:
-          SSH_PASSWORD: "123" 
-        run: |
-          ssh -o StrictHostKeyChecking=no yc-user@${{ secrets.SERVER_IP }} "
-          docker-compose pull
-          docker-compose up -d
-          "  
+        - name: Connect to server and deploy
+          env:
+            SSH_PASSWORD: "123" 
+          run: |
+            sshpass -p "123" ssh -o StrictHostKeyChecking=no yc-user@${{ secrets.SERVER_IP }} "
+            docker-compose pull
+            docker-compose up -d
+            "  
 
